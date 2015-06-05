@@ -8,10 +8,11 @@ import obd_reader
 
 white = (255, 255, 255)
 black = (0, 0, 0)
-rec_width = 250
-rec_height = 270
-size = width, height = 830, 600
+size = width, height = 400, 300
 space = 20
+rec_width = (width - (4 * space)) / 3
+rec_height = (height - (3 * space)) / 2
+
 
 
 class Pane(object):
@@ -63,4 +64,4 @@ if __name__ == '__main__':
         pan.draw_interface()
 
         time.sleep(0.001)
-        pygame.display.flip()
+        pygame.display.update()
