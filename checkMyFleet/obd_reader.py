@@ -20,6 +20,9 @@ class ObdReader(object):
         self.parameters = obd_parameters.ObdParameters()
 
     def read_obd(self):
-        self.parameters.rpm = self.connection.query(obd.commands.RPM).value
-        self.parameters.speed = self.connection.query(obd.commands.SPEED).value
-        # self.parameters.distance = self.connection.query(obd.commands.DISTANCE_W_MIL).vallue
+        self.parameters.rpm = self.connection.query(obd.commands.RPM)
+        self.parameters.speed = self.connection.query(obd.commands.SPEED)
+        self.parameters.throttle = self.connection.query(obd.commands.THROTTLE_POS)
+        self.parameters.load = self.connection.query(obd.commands.ENGINE_LOAD)
+        self.parameters.fuel_status = self.connection.query(obd.commands.FUEL_STATUS)
+        self.parameters.distance = self.connection.query(obd.commands.DISTANCE_W_MIL)

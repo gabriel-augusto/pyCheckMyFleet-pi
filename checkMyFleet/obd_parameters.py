@@ -12,4 +12,11 @@ class ObdParameters(object):
     def __init__(self):
         self.rpm = 0
         self.speed = 0
+        self.throttle = 0
+        self.load = 0
+        self.fuel_status = 0
         self.distance = 0
+
+    def __str__(self):
+        return str(self.rpm.value) + "," + str(self.speed.value) + "," + str(self.throttle.value) + "," + str(
+            self.load.value) + "," + str(self.fuel_status.value)
