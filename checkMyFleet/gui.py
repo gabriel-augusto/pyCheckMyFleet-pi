@@ -44,8 +44,8 @@ class Pane(object):
         self.xpos = 0
         data = [('RPM:', str(self.parameters.rpm.value)),
                 ('Km/h:', str(self.parameters.speed.value)),
-                ('Economia:', str(self.parameters.econometer)),
-                ('Acelerador:', str(self.parameters.throttle.value)),
+                ('Economia:', "%.2f" % self.parameters.econometer),
+                ('Acelerador:', "%.2f" % self.parameters.throttle.value),
                 ('Distancia:', str(self.parameters.distance.value)),
                 ('', '')]
 
