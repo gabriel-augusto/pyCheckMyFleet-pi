@@ -19,6 +19,6 @@ class ObdParameters(object):
         self.econometer = 0
 
     def __str__(self):
-        return str(self.rpm.value) + "," + str(self.speed.value) + "," + str(self.throttle.value) + "," + \
-               str(self.load.value) + "," + str(self.fuel_status.value) + "," + str(self.distance.value) + "," + \
-               str(self.econometer)
+        return str(self.rpm.value) + "," + str(self.speed.value) + "," + str(self.throttle.value) + "," + str(
+            self.load.value) + "," + str(self.fuel_status.value) + "," + str(self.distance.value) + "," + str(
+            self.econometer)

@@ -23,7 +23,7 @@ class OBDRecorder:
     def record_data(self):
         localtime = datetime.now()
         current_time = localtime.isoformat()
-        log_string = current_time + "," + self.parameters.__str__
+        log_string = current_time + "," + self.parameters.__str__()
 
         mode = 'a' if os.path.exists(self.path) else 'w'
         with open(self.path, mode) as f:
