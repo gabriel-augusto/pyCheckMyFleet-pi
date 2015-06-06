@@ -10,12 +10,21 @@ class OBDRecorder:
         localtime = time.localtime(time.time())
         filename = "log/car-" + str(localtime[0]) + "-" + str(localtime[1]) + "-" + str(localtime[2]) + "-" + str(
             localtime[3]) + "-" + str(localtime[4]) + "-" + str(localtime[5]) + ".log"
-        self.log_file = open(filename, "w", 128)
-        self.log_file.write("Time,RPM,MPH,Throttle,Load,Fuel Status\n")
+        curpath = os.path.abspath(os.curdir)
+        self.path = os.path.join(curpath, filename)
+        
+        mode = 'a' if os.path.exists(self.path) else 'w'
+        with open(self.path, mode) as f:
+            f.write("Time,RPM,MPH,Throttle,Load,Fuel Status\n")
+
         self.parameters = obd_parameters.ObdParameters()
 
     def record_data(self):
         localtime = datetime.now()
         current_time = localtime.isoformat()
         log_string = current_time + "," + self.parameters.__str__()
-        self.log_file.write(log_string + "\n")
+
+        mode = 'a' if os.path.exists(self.path) else 'w'
+        with open(self.path, mode) as f:
+            f.write(log_string + "\n")
+
