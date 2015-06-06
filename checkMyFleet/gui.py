@@ -17,7 +17,10 @@ rec_height = (height - (3 * space)) / 2
 class Pane(object):
     def __init__(self):
         pygame.init()
-        self.font = pygame.font.SysFont('Arial', 25)
+        self.LABEL = 1
+        self.PARAMETER = 2
+        self.font1 = pygame.font.SysFont('Arial', 25)
+        self.font2 = pygame.font.SysFont('Arial', 35)
         pygame.display.set_caption('OBD GUI')
         self.screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
         self.xpos = 0
@@ -29,22 +32,35 @@ class Pane(object):
     def add_rec(self, x, y):
         pygame.draw.rect(self.screen, white, [x, y, rec_width, rec_height], 2)
 
-    def add_text(self, text, x, y):
-        self.screen.blit(self.font.render(text, True, (255, 255, 255)), (x, y))
+    def add_text(self, text, x, y, font_type):
+        if font_type == 1:
+            self.screen.blit(self.font1.render(text, True, (255, 255, 255)), (x, y))
+        if font_type == 2:
+            self.screen.blit(self.font2.render(text, True, (255, 255, 255)), (x, y))
+
 
     def draw_interface(self):
         self.screen.fill(black)
         self.xpos = 0
+        data = [('RPM:', str(self.parameters.rpm.value)),
+                ('Km/h:', str(self.parameters.speed.value)),
+                ('Economia:', str(self.parameters.econometer)),
+                ('Acelerador:', str(self.parameters.throttle.value)),
+                ('Distancia:', str(self.parameters.distance.value)),
+                ('', '')]
+
         for count in range(0, 3):
             self.xpos += space
             self.ypos = space
             self.add_rec(self.xpos, self.ypos)
-            self.add_text('RPM:', self.xpos + 10, self.ypos + 10)
-            self.add_text(str(self.parameters.rpm.value), self.xpos + 30, self.ypos + (rec_height / 2))
+            self.add_text(data[count*2][0], self.xpos + 10, self.ypos + 10, self.LABEL)
+            self.add_text(data[count*2][1], self.xpos + 70, self.ypos + (rec_height / 2 - 10),
+                          self.PARAMETER)
             self.ypos += (rec_height + space)
             self.add_rec(self.xpos, self.ypos)
-            self.add_text('SPEED:', self.xpos + 10, self.ypos + 10)
-            self.add_text(str(self.parameters.speed.value), self.xpos + 30, self.ypos + (rec_height / 2))
+            self.add_text(data[count*2+1][0], self.xpos + 10, self.ypos + 10, self.LABEL)
+            self.add_text(data[count*2+1][1], self.xpos + 70, self.ypos + (rec_height / 2 - 10),
+                          self.PARAMETER)
             self.xpos += rec_width
 
 

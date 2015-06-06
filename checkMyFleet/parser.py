@@ -39,7 +39,7 @@ class LogReader:
             print("\nIOerr: " + str(ioerr))
 
     @property
-    def is_connected(self):
+    def has_internet_connection(self):
         try:
             host = socket.gethostbyname(REMOTE_SERVER)
             socket.create_connection((host, 80), 2)
@@ -86,7 +86,7 @@ class LogReader:
 if __name__ == "__main__":
     reader = LogReader()
     while True:
-        if reader.is_connected:
+        if reader.has_internet_connection:
             reader.read_log()
         else:
-            t.sleep(5)
+            t.sleep(3)

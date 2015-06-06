@@ -26,3 +26,7 @@ class ObdReader(object):
         self.parameters.load = self.connection.query(obd.commands.ENGINE_LOAD)
         self.parameters.fuel_status = self.connection.query(obd.commands.FUEL_STATUS)
         self.parameters.distance = self.connection.query(obd.commands.DISTANCE_W_MIL)
+        if self.parameters.throttle.value is not None:
+            self.parameters.econometer = 100 - self.parameters.throttle.value
+        else:
+            self.parameters.econometer = None
