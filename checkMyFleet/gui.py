@@ -8,7 +8,7 @@ import obd_reader
 
 white = (255, 255, 255)
 black = (0, 0, 0)
-size = width, height = 400, 300
+size = width, height = 800, 600
 space = 20
 rec_width = (width - (4 * space)) / 3
 rec_height = (height - (3 * space)) / 2
@@ -20,9 +20,7 @@ class Pane(object):
         pygame.init()
         self.font = pygame.font.SysFont('Arial', 25)
         pygame.display.set_caption('OBD GUI')
-        self.screen = pygame.display.set_mode(size, 0, 32)
-        self.screen.fill(black)
-        pygame.display.update()
+        self.screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
         self.xpos = 0
         self.ypos = 0
         self.parameters = obd_parameters.ObdParameters()
@@ -35,6 +33,7 @@ class Pane(object):
         self.screen.blit(self.font.render(text, True, (255, 255, 255)), (x, y))
 
     def draw_interface(self):
+        self.screen.fill(black)
         self.xpos = 0
         for count in range(0, 3):
             self.xpos += space
@@ -62,6 +61,4 @@ if __name__ == '__main__':
 
         pan.reader.read_obd()
         pan.draw_interface()
-
-        time.sleep(0.001)
-        pygame.display.update()
+        pygame.display.flip()

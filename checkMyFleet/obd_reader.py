@@ -2,6 +2,7 @@ __author__ = 'gabriel'
 
 import obd
 import obd_parameters
+import sys
 
 
 class ObdReader(object):
@@ -13,12 +14,12 @@ class ObdReader(object):
         return cls._instance
 
     def __init__(self):
+        reload(sys)
+        sys.setdefaultencoding('Cp1252')
         self.connection = obd.OBD()
         self.parameters = obd_parameters.ObdParameters()
-        self.connection.is_connected()
-        print self.connection
 
     def read_obd(self):
-        self.parameters.rpm = self.connection.query(obd.commands.RPM)
-        self.parameters.speed = self.connection.query(obd.commands.SPEED)
-        self.parameters.distance = self.connection.query(obd.commands.DISTANCE_W_MIL)
+        self.parameters.rpm = self.connection.query(obd.commands.RPM).value
+        self.parameters.speed = self.connection.query(obd.commands.SPEED).value
+        # self.parameters.distance = self.connection.query(obd.commands.DISTANCE_W_MIL).vallue
