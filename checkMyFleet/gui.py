@@ -63,8 +63,10 @@ class Pane(object):
                 self.xpos += space
 
             self.add_rec(self.xpos, self.ypos)
-            if is_float(data[1]):
+            
+            if is_float(data[1].value):
                 data[1].value = round(data[1].value, 2)
+
             self.add_text(str(data[0]), self.xpos + 10, self.ypos + 10, self.LABEL)
             self.add_text(data[1].__str__(), self.xpos + 70, self.ypos + (rec_height / 2 - 10),
                           self.PARAMETER)
