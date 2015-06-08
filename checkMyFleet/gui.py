@@ -84,7 +84,7 @@ if __name__ == '__main__':
                 if event.key == pygame.K_ESCAPE:
                     sys.exit()
 
-        # pan.reader.read_obd()
+        pan.reader.read_obd()
         pan.recorder.record_data()
         pan.draw_interface()
         pygame.display.flip()

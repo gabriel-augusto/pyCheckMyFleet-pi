@@ -32,4 +32,4 @@ class ObdReader(object):
             self.parameters.econometer.unit = utils.Unit.PERCENT
         else:
             self.parameters.econometer.value = None
-            self.parameters.econometer.unit = utils.Unit.None
+            self.parameters.econometer.unit = utils.Unit.NONE
