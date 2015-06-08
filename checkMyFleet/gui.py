@@ -14,6 +14,14 @@ rec_width = (width - (4 * space)) / 3
 rec_height = (height - (3 * space)) / 2
 
 
+def is_float(value):
+    try:
+        value = float(value)
+        return True
+    except:
+        return False
+
+
 class Pane(object):
     def __init__(self):
         pygame.init()
@@ -38,31 +46,32 @@ class Pane(object):
         if font_type == 2:
             self.screen.blit(self.font2.render(text, True, (255, 255, 255)), (x, y))
 
-
     def draw_interface(self):
+        data_list = [('RPM:', self.parameters.rpm),
+                     ('Km/h:', self.parameters.speed),
+                     ('Economia:', self.parameters.econometer),
+                     ('Acelerador:', self.parameters.throttle),
+                     ('Distancia:', self.parameters.distance)]
         self.screen.fill(black)
         self.xpos = 0
-        data = [('RPM:', str(self.parameters.rpm.value)),
-                ('Km/h:', str(self.parameters.speed.value)),
-                ('Economia:', "%.2f" % self.parameters.econometer),
-                ('Acelerador:', "%.2f" % self.parameters.throttle.value),
-                ('Distancia:', str(self.parameters.distance.value)),
-                ('', '')]
+        count = 0
+        for data in data_list:
+            if count % 2:
+                self.ypos += (rec_height + space)
+            else:
+                self.ypos = space
+                self.xpos += space
 
-        for count in range(0, 3):
-            self.xpos += space
-            self.ypos = space
             self.add_rec(self.xpos, self.ypos)
-            self.add_text(data[count*2][0], self.xpos + 10, self.ypos + 10, self.LABEL)
-            self.add_text(data[count*2][1], self.xpos + 70, self.ypos + (rec_height / 2 - 10),
+            if is_float(data[1]):
+                data[1].value = round(data[1].value, 2)
+            self.add_text(str(data[0]), self.xpos + 10, self.ypos + 10, self.LABEL)
+            self.add_text(data[1].__str__(), self.xpos + 70, self.ypos + (rec_height / 2 - 10),
                           self.PARAMETER)
-            self.ypos += (rec_height + space)
-            self.add_rec(self.xpos, self.ypos)
-            self.add_text(data[count*2+1][0], self.xpos + 10, self.ypos + 10, self.LABEL)
-            self.add_text(data[count*2+1][1], self.xpos + 70, self.ypos + (rec_height / 2 - 10),
-                          self.PARAMETER)
-            self.xpos += rec_width
 
+            if count % 2:
+                self.xpos += rec_width
+            count += 1
 
 if __name__ == '__main__':
     pan = Pane()
@@ -75,7 +84,7 @@ if __name__ == '__main__':
                 if event.key == pygame.K_ESCAPE:
                     sys.exit()
 
-        pan.reader.read_obd()
+        # pan.reader.read_obd()
         pan.recorder.record_data()
         pan.draw_interface()
         pygame.display.flip()

@@ -1,6 +1,7 @@
 __author__ = 'gabriel'
 
 import obd
+from obd import utils
 import obd_parameters
 import sys
 
@@ -27,6 +28,8 @@ class ObdReader(object):
         self.parameters.fuel_status = self.connection.query(obd.commands.FUEL_STATUS)
         self.parameters.distance = self.connection.query(obd.commands.DISTANCE_W_MIL)
         if self.parameters.throttle.value is not None:
-            self.parameters.econometer = 100 - self.parameters.throttle.value
+            self.parameters.econometer.value = 100 - self.parameters.throttle.value
+            self.parameters.econometer.unit = utils.Unit.PERCENT
         else:
-            self.parameters.econometer = None
+            self.parameters.econometer.value = None
+            self.parameters.econometer.unit = utils.Unit.None

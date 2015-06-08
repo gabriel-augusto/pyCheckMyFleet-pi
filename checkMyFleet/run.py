@@ -2,8 +2,6 @@ __author__ = 'gabriel'
 
 import subprocess
 import bluetooth
-import os
-import time
 
 target_name = "OBDII"
 target_address = None

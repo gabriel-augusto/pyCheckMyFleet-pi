@@ -1,5 +1,7 @@
 __author__ = 'gabriel'
 
+from obd import utils
+
 
 class ObdParameters(object):
     _instance = None
@@ -10,15 +12,15 @@ class ObdParameters(object):
         return cls._instance
 
     def __init__(self):
-        self.rpm = 0
-        self.speed = 0
-        self.throttle = 0
-        self.load = 0
-        self.fuel_status = 0
-        self.distance = 0
-        self.econometer = 0
+        self.rpm = utils.Response()
+        self.speed = utils.Response()
+        self.throttle = utils.Response()
+        self.load = utils.Response()
+        self.fuel_status = utils.Response()
+        self.distance = utils.Response()
+        self.econometer = utils.Response()
 
     def __str__(self):
         return str(self.rpm.value) + "," + str(self.speed.value) + "," + str(self.throttle.value) + "," + str(
             self.load.value) + "," + str(self.fuel_status.value) + "," + str(self.distance.value) + "," + str(
-            self.econometer)
+            self.econometer.value)
