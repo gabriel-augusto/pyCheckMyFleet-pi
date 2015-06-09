@@ -51,7 +51,8 @@ class Pane(object):
                      ('Velocidade:', self.parameters.speed),
                      ('Economia:', self.parameters.econometer),
                      ('Acelerador:', self.parameters.throttle),
-                     ('Distancia:', self.parameters.distance)]
+                     ('Distancia:', self.parameters.distance),
+                     ('Combustivel:', self.parameters.fuel)]
         self.screen.fill(black)
         self.xpos = 0
         count = 0
