@@ -78,6 +78,7 @@ class Pane(object):
 
 if __name__ == '__main__':
     pan = Pane()
+    pan.reader.clear_dtc()
 
     while True:
         for event in pygame.event.get():

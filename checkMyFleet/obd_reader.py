@@ -33,3 +33,6 @@ class ObdReader(object):
         else:
             self.parameters.econometer.value = None
             self.parameters.econometer.unit = utils.Unit.NONE
+
+    def clear_dtc(self):
+        self.connection.query(obd.commands.CLEAR_DTC)
