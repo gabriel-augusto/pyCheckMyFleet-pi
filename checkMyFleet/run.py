@@ -3,6 +3,9 @@ __author__ = 'gabriel'
 import subprocess
 import bluetooth
 import os
+from obd_reader import ObdReader
+from obd_recorder import OBDRecorder
+from gui import Render
 
 target_name = "OBDII"
 target_address = None
@@ -27,4 +30,15 @@ while True:
     else:
         print "could not find target bluetooth device nearby"
 
-subprocess.Popen(["sudo", "python", "gui.py"])
+reader = ObdReader()
+reader.setName('Reader')
+
+recorder = OBDRecorder()
+recorder.setName('Recorder')
+
+render = Render()
+render.setName('Render')
+
+reader.start()
+recorder.start()
+render.start()
