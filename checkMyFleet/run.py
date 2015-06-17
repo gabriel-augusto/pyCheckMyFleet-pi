@@ -2,6 +2,7 @@ __author__ = 'gabriel'
 
 import subprocess
 import bluetooth
+import os
 
 target_name = "OBDII"
 target_address = None
@@ -19,8 +20,8 @@ while True:
 
     if target_address is not None:
         print "found target bluetooth device with address ", target_address
-        # os.system("sudo rfcomm bind all")
-        subprocess.Popen(["sudo", "rfcomm", "connect", "0", target_address, "1"])
+        os.system("sudo rfcomm bind all")
+        # subprocess.Popen(["sudo", "rfcomm", "connect", "0", target_address, "1"])
         print "Connected!!!\n\n"
         break
     else:

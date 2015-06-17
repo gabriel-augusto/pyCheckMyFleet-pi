@@ -19,14 +19,15 @@ class ObdReader(object):
         sys.setdefaultencoding('Cp1252')
         self.connection = obd.OBD()
         self.parameters = obd_parameters.ObdParameters()
+        # utils.Unit.LPH = 'L/h'
 
     def read_obd(self):
+        self.parameters.fuel = self.connection.query(obd.commands.FUEL_RATE)
+        self.parameters.distance = self.connection.query(obd.commands.DISTANCE_SINCE_DTC_CLEAR)
         self.parameters.rpm = self.connection.query(obd.commands.RPM)
         self.parameters.speed = self.connection.query(obd.commands.SPEED)
         self.parameters.throttle = self.connection.query(obd.commands.THROTTLE_POS)
         self.parameters.load = self.connection.query(obd.commands.ENGINE_LOAD)
-        self.parameters.fuel = self.connection.query(obd.commands.FUEL_LEVEL)
-        self.parameters.distance = self.connection.query(obd.commands.DISTANCE_SINCE_DTC_CLEAR)
         if self.parameters.throttle.value is not None:
             self.parameters.econometer.value = 100 - self.parameters.throttle.value
             self.parameters.econometer.unit = utils.Unit.PERCENT

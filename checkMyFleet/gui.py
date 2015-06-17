@@ -52,7 +52,7 @@ class Pane(object):
                      ('Economia:', self.parameters.econometer),
                      ('Acelerador:', self.parameters.throttle),
                      ('Distancia:', self.parameters.distance),
-                     ('Combustivel:', self.parameters.fuel)]
+                     ('Consumo:', self.parameters.fuel)]
         self.screen.fill(black)
         self.xpos = 0
         count = 0
@@ -64,17 +64,20 @@ class Pane(object):
                 self.xpos += space
 
             self.add_rec(self.xpos, self.ypos)
-            
+
             if is_float(data[1].value):
                 data[1].value = round(data[1].value, 2)
 
             self.add_text(str(data[0]), self.xpos + 10, self.ypos + 10, self.LABEL)
-            self.add_text(data[1].__str__(), self.xpos + 10, self.ypos + (rec_height / 2 - 10),
-                          self.PARAMETER)
+            if data[1].value is None:
+                self.add_text('NULO', self.xpos + 10, self.ypos + (rec_height / 2 - 10), self.PARAMETER)
+            else:
+                self.add_text(data[1].__str__(), self.xpos + 10, self.ypos + (rec_height / 2 - 10), self.PARAMETER)
 
             if count % 2:
                 self.xpos += rec_width
             count += 1
+
 
 if __name__ == '__main__':
     pan = Pane()
