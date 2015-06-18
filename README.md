@@ -1,16 +1,16 @@
 # pyCheckMyFleet-pi
 
 Configuração e Instalação
-
+----------------------------------------------------
 Sistema Operacional: 
 Raspbian
-----------------------------------------------------
+
 Pré-requisitos:
 Módulo bluetooth instalado
 Módulo wi-fi instalado
-----------------------------------------------------
-Instalação do sistema:
 
+Instalação do sistema:
+----------------------------------------------------
 Antes de começar a instalação execute os seguintes comandos:
 
 $  sudo apt-get update
@@ -30,18 +30,18 @@ Em seguida, clone o repositório na pasta raíz do seu Raspbian:
 
 $  cd ~
 $  git clone https://github.com/gabriel-augusto/pyCheckMyFleet-pi
-----------------------------------------------------
-Instalação dos módulos python:
 
+Instalação dos módulos python:
+----------------------------------------------------
 $ sudo apt-get install python-pip
 $ sudo apt-get install libbluetooth-dev
 $ sudo pip install pybluez
 $ sudo apt-get install python-mysqldb
 $ sudo apt-get install build-essential python-dev libmysqlclient-dev
 $ sudo pip install MySQL-python
-----------------------------------------------------
-Permitir saída de vídeo auxiliar no RPi:
 
+Permitir saída de vídeo auxiliar no RPi:
+----------------------------------------------------
 Conecte seu teclado e sua TV no RPi.
 Insira seu cartão SD.
 Ligue a TV.
@@ -62,9 +62,9 @@ está comentada (tem o símbolo # no início da linha).
 Precione a tecla TAB.
 Clique em OK
 Pressione a tecla ESC e aguarde o RPi reiniciar.
-----------------------------------------------------
-Login automático:
 
+Login automático:
+----------------------------------------------------
 Abra o terminal e edite o arquivo inittab:
 $ sudo nano /etc/inittab
 
@@ -79,9 +79,9 @@ Adicione a seguinte linha logo abaixo a linha comentada:
 
 Isto irá executar o login com o usuário pi e sem nenhuma autenticação.
 Pressione Ctrl+X para sair do editor nano seguido de Y para salvar o arquivo e então pressione Enter para confirmar o nome do arquivo.
-----------------------------------------------------
-conectar ao OBDII automaticamente:
 
+conectar ao OBDII automaticamente:
+----------------------------------------------------
 Primeiramente, com o OBD ligado perto do seu Raspbarry-pi, descubra o endereço MAC do seu OBD com o comando:
 
 $  hcitool scan
@@ -108,9 +108,9 @@ rfcomm1 {
 
 Este código ira permitir que ao utilizar o comando “sudo rfcomm bind all” o raspbarry se conecte automaticamente ao OBDII. Posteriormente iremos mostrar como colocar esse código para ser executado na inicialização do sistema.
 
-----------------------------------------------------
-Execução automática:
 
+Execução automática:
+----------------------------------------------------
 Para executar o sistema automaticamente após a inicialização do SO execute:
 
 $ sudo nano /etc/profile
@@ -120,4 +120,3 @@ cd pyobd-pi/
 python run.py
 
 Ao final digite “ctrl+X” para sair, pressione “Y” para salvar e por fim “Enter” para confirmar o nome do arquivo.
------------------------------------------------------
