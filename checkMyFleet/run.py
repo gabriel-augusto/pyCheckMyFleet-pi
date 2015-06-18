@@ -42,3 +42,7 @@ render.setName('Render')
 reader.start()
 recorder.start()
 render.start()
+
+reader.join()
+recorder.join()
+render.join()

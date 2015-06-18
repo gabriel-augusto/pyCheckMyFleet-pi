@@ -18,7 +18,7 @@ class OBDRecorder(Thread):
 
         mode = 'a' if os.path.exists(self.path) else 'w'
         with open(self.path, mode) as f:
-            f.write("Time,RPM,MPH,Throttle,Load,Fuel Status, Distance\n")
+            f.write("Time,RPM,MPH,Throttle,Load,Fuel, Distance\n")
 
         self.parameters = obd_parameters.ObdParameters()
 
