@@ -1,8 +1,6 @@
 __author__ = 'gabriel'
 
 import obd
-# from obd import utils
-# import obd_parameters
 import sys
 from threading import Thread
 import time

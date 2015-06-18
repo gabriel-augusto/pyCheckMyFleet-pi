@@ -2,9 +2,6 @@ __author__ = 'gabriel'
 
 import sys
 import pygame
-# from obd_parameters import ObdParameters
-# from obd_reader import ObdReader
-# from obd_recorder import OBDRecorder
 from threading import Thread
 
 white = (255, 255, 255)
@@ -35,7 +32,6 @@ class Pane(object):
         self.xpos = 0
         self.ypos = 0
         self.parameters = parameters
-        # self.reader = ObdReader()
 
     def add_rec(self, x, y):
         pygame.draw.rect(self.screen, white, [x, y, rec_width, rec_height], 2)
@@ -65,7 +61,10 @@ class Pane(object):
                 data[1].value = round(data[1].value, 2)
 
             self.add_text(str(data[0]), self.xpos + 10, self.ypos + 10, self.LABEL)
-            self.add_text(data[1].__str__(), self.xpos + 10, self.ypos + (rec_height / 2 - 10), self.PARAMETER)
+            if data[1].value is None:
+                self.add_text('---------', self.xpos + 10, self.ypos + (rec_height / 2 - 10), self.PARAMETER)
+            else:
+                self.add_text(data[1].__str__(), self.xpos + 10, self.ypos + (rec_height / 2 - 10), self.PARAMETER)
 
             if count % 2:
                 self.xpos += rec_width
@@ -86,6 +85,5 @@ class Render(Thread):
                     if event.key == pygame.K_ESCAPE:
                         sys.exit()
 
-            # self.pan.reader.read_obd()
             self.pan.draw_interface()
             pygame.display.flip()

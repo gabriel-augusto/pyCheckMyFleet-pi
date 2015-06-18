@@ -20,9 +20,9 @@ class ObdParameters(object):
         self.load = utils.Response()
         self.fuel = utils.Response()
         self.distance = utils.Response()
-        self.econometer = utils.Response()
+        self.economy = utils.Response()
 
     def __str__(self):
         return str(self.rpm.value) + "," + str(self.speed.value) + "," + str(self.throttle.value) + "," + str(
             self.load.value) + "," + str(self.fuel.value) + "," + str(self.distance.value) + "," + str(
-            self.econometer.value)
+            self.economy.value)

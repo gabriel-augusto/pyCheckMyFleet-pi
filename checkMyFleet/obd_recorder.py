@@ -2,7 +2,6 @@ __author__ = 'gabriel'
 
 from datetime import datetime
 import time
-# import obd_parameters
 import os
 from threading import Thread
 
@@ -13,8 +12,8 @@ class OBDRecorder(Thread):
         localtime = time.localtime(time.time())
         filename = "log/car-" + str(localtime[0]) + "-" + str(localtime[1]) + "-" + str(localtime[2]) + "-" + str(
             localtime[3]) + "-" + str(localtime[4]) + "-" + str(localtime[5]) + ".log"
-        curpath = os.path.abspath(os.curdir)
-        self.path = os.path.join(curpath, filename)
+        current_path = os.path.abspath(os.curdir)
+        self.path = os.path.join(current_path, filename)
 
         mode = 'a' if os.path.exists(self.path) else 'w'
         with open(self.path, mode) as f:
