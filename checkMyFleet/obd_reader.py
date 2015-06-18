@@ -4,6 +4,7 @@ import obd
 import sys
 from threading import Thread
 import time
+from obd import Unit
 
 
 class ObdReader(Thread, object):
@@ -18,6 +19,8 @@ class ObdReader(Thread, object):
         Thread.__init__(self)
         reload(sys)
         sys.setdefaultencoding('Cp1252')
+        Unit.KPA = 'Km/h'
+        Unit.LPH = 'L/h'
         self.connection = obd.OBD()
         self.parameters = parameters
 

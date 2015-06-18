@@ -12,8 +12,6 @@ class ObdParameters(object):
         return cls._instance
 
     def __init__(self):
-        utils.Unit.KPA = 'Km/h'
-        utils.Unit.LPH = 'L/h'
         self.rpm = utils.Response()
         self.speed = utils.Response()
         self.throttle = utils.Response()
