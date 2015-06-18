@@ -2,13 +2,13 @@ __author__ = 'gabriel'
 
 from datetime import datetime
 import time
-import obd_parameters
+# import obd_parameters
 import os
 from threading import Thread
 
 
 class OBDRecorder(Thread):
-    def __init__(self):
+    def __init__(self, parameters):
         Thread.__init__(self)
         localtime = time.localtime(time.time())
         filename = "log/car-" + str(localtime[0]) + "-" + str(localtime[1]) + "-" + str(localtime[2]) + "-" + str(
@@ -20,7 +20,7 @@ class OBDRecorder(Thread):
         with open(self.path, mode) as f:
             f.write("Time,RPM,MPH,Throttle,Load,Fuel, Distance\n")
 
-        self.parameters = obd_parameters.ObdParameters()
+        self.parameters = parameters
 
     def record_data(self):
         localtime = datetime.now()

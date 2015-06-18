@@ -2,9 +2,9 @@ __author__ = 'gabriel'
 
 import sys
 import pygame
-from obd_parameters import ObdParameters
-from obd_reader import ObdReader
-from obd_recorder import OBDRecorder
+# from obd_parameters import ObdParameters
+# from obd_reader import ObdReader
+# from obd_recorder import OBDRecorder
 from threading import Thread
 
 white = (255, 255, 255)
@@ -24,7 +24,7 @@ def is_float(value):
 
 
 class Pane(object):
-    def __init__(self):
+    def __init__(self, parameters):
         pygame.init()
         self.LABEL = 1
         self.PARAMETER = 2
@@ -34,8 +34,8 @@ class Pane(object):
         self.screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
         self.xpos = 0
         self.ypos = 0
-        self.parameters = ObdParameters()
-        self.reader = ObdReader()
+        self.parameters = parameters
+        # self.reader = ObdReader()
 
     def add_rec(self, x, y):
         pygame.draw.rect(self.screen, white, [x, y, rec_width, rec_height], 2)
@@ -73,9 +73,9 @@ class Pane(object):
 
 
 class Render(Thread):
-    def __init__(self):
+    def __init__(self, parameters):
         Thread.__init__(self)
-        self.pan = Pane()
+        self.pan = Pane(parameters)
 
     def run(self):
         while True:
@@ -86,21 +86,6 @@ class Render(Thread):
                     if event.key == pygame.K_ESCAPE:
                         sys.exit()
 
-            self.pan.reader.read_obd()
+            # self.pan.reader.read_obd()
             self.pan.draw_interface()
             pygame.display.flip()
-
-
-if __name__ == '__main__':
-    reader = ObdReader()
-    reader.setName('Reader')
-
-    recorder = OBDRecorder()
-    recorder.setName('Recorder')
-
-    render = Render()
-    render.setName('Render')
-
-    reader.start()
-    recorder.start()
-    render.start()

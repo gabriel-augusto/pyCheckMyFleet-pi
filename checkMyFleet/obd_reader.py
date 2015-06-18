@@ -2,7 +2,7 @@ __author__ = 'gabriel'
 
 import obd
 # from obd import utils
-import obd_parameters
+# import obd_parameters
 import sys
 from threading import Thread
 import time
@@ -16,12 +16,12 @@ class ObdReader(Thread, object):
             cls._instance = super(ObdReader, cls).__new__(cls, *args)
         return cls._instance
 
-    def __init__(self):
+    def __init__(self, parameters):
         Thread.__init__(self)
         reload(sys)
         sys.setdefaultencoding('Cp1252')
         self.connection = obd.OBD()
-        self.parameters = obd_parameters.ObdParameters()
+        self.parameters = parameters
 
     def read_obd(self):
         self.parameters.fuel = self.connection.query(obd.commands.FUEL_RATE)
