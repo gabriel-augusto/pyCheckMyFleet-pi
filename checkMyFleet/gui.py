@@ -47,7 +47,8 @@ class Pane(object):
             self.screen.blit(self.font2.render(text, True, (255, 255, 255)), (x, y))
 
     def draw_interface(self):
-        data_list = [('Consumo:', self.parameters.fuel), ('Velocidade:', self.parameters.rpm)]
+        data_list = [('Velocidade:', self.parameters.speed), ('RPM:', self.parameters.rpm),
+                     ('Consumo:', self.parameters.fuel), ('Velocidade:', self.parameters.rpm)]
         self.screen.fill(black)
         self.xpos = 0
         count = 0
