@@ -103,18 +103,18 @@ Primeiramente, com o OBD ligado perto do seu Raspbarry-pi, descubra o endereço 
 ```shell
 hcitool scan
 ```
-Para adicionar o OBDII à lista de dispositivos bluetooth do seu raspbarry, com o bluetooth ligado, o OBD conectado ao carro ligado e com os dois dispositovos próximo, abra o terminal e insira o seguinte comando:
+Para adicionar o OBDII à lista de dispositivos bluetooth do seu raspbarry, com o bluetooth ligado, o OBD conectado ao carro ligado e com os dois dispositovos próximo, abra o terminal e insira o seguinte comando (Substituindo o endereço MAC pelo endereço do seu dispositivo):
 ```shell
 sudo bluez-simple-agent hci0 00:0D:18:A0:4E:35
 ```
-Em seguida, quando solicitado o PIN digite:
-1234
+Em seguida, quando solicitado, digite o PIN do seu dispositivo.
+Ex: 1234
 
 Agora com o OBD adicionado a lista de dispositivos bluetooth, edite o arquivo rfcomm.conf:
 ```shell
 sudo nano /etc/bluetooth/rfcomm.conf
 ```
-E adicione o seguinte código ao final do arquivo:
+E adicione o seguinte código ao final do arquivo (Substituindo o endereço MAC pelo endereço do seu dispositivo):
 ```shell
 rfcomm1 {
     bind yes;
