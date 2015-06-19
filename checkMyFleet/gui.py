@@ -62,10 +62,7 @@ class Pane(object):
                 data[1].value = round(data[1].value, 2)
 
             self.add_text(str(data[0]), self.xpos + 10, self.ypos + 10, self.LABEL)
-            if data[1].value is None:
-                self.add_text('---------', self.xpos + 10, self.ypos + (rec_height / 2 - 10), self.PARAMETER)
-            else:
-                self.add_text(data[1].__str__(), self.xpos + 10, self.ypos + (rec_height / 2 - 10), self.PARAMETER)
+            self.add_text(data[1].__str__(), self.xpos + 10, self.ypos + (rec_height / 2 - 10), self.PARAMETER)
 
             if count % 2:
                 self.xpos += rec_width
@@ -85,6 +82,5 @@ class Render(Thread):
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         sys.exit()
-
             self.pan.draw_interface()
             pygame.display.flip()

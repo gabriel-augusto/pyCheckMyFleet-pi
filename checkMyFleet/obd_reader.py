@@ -24,8 +24,12 @@ class ObdReader(Thread, object):
 
     def read_obd(self):
         self.parameters.fuel = self.connection.query(obd.commands.FUEL_RATE)
+        if self.parameters.fuel.value is not None:
+            self.parameters.fuel.unit = 'L/h'
         self.parameters.rpm = self.connection.query(obd.commands.RPM)
         self.parameters.speed = self.connection.query(obd.commands.SPEED)
+        if self.parameters.speed.value is not None:
+            self.parameters.fuel.unit = 'Km/h'
         self.parameters.level = self.connection.query(obd.commands.FUEL_LEVEL)
         self.parameters.ethanol = self.connection.query(obd.commands.ETHANOL_PERCENT)
 
