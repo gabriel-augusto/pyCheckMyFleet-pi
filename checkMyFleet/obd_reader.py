@@ -26,8 +26,8 @@ class ObdReader(Thread, object):
         self.parameters.fuel = self.connection.query(obd.commands.FUEL_RATE)
         self.parameters.rpm = self.connection.query(obd.commands.RPM)
         self.parameters.speed = self.connection.query(obd.commands.SPEED)
-        # self.parameters.level = self.connection.query(obd.commands.FUEL_LEVEL)
-        # self.parameters.ethanol = self.connection.query(obd.commands.ETHANOL_PERCENT)
+        self.parameters.level = self.connection.query(obd.commands.FUEL_LEVEL)
+        self.parameters.ethanol = self.connection.query(obd.commands.ETHANOL_PERCENT)
 
     def clear_dtc(self):
         self.connection.query(obd.commands.CLEAR_DTC)
