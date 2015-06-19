@@ -28,7 +28,7 @@ class Pane(object):
         self.font1 = pygame.font.SysFont('Arial', 25)
         self.font2 = pygame.font.SysFont('Arial', 30)
         pygame.display.set_caption('OBD GUI')
-        self.screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
+        self.screen = pygame.display.set_mode(size)
         self.xpos = 0
         self.ypos = 0
         self.parameters = parameters
@@ -44,7 +44,7 @@ class Pane(object):
 
     def draw_interface(self):
         data_list = [('Velocidade:', self.parameters.speed), ('RPM:', self.parameters.rpm),
-                     ('Consumo:', self.parameters.fuel), ('Combustivel:', self.parameters.level),
+                     ('Consumo:', self.parameters.fuel_rate), ('Combustivel:', self.parameters.fuel_level),
                      ('Ethanol', self.parameters.ethanol)]
         self.screen.fill(black)
         self.xpos = 0

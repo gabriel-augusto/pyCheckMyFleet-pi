@@ -14,11 +14,6 @@ class OBDRecorder(Thread):
             localtime[3]) + "-" + str(localtime[4]) + "-" + str(localtime[5]) + ".log"
         current_path = os.path.abspath(os.curdir)
         self.path = os.path.join(current_path, filename)
-
-        mode = 'a' if os.path.exists(self.path) else 'w'
-        with open(self.path, mode) as f:
-            f.write("Time,RPM,MPH,Throttle,Load,Fuel, Distance\n")
-
         self.parameters = parameters
 
     def record_data(self):
@@ -26,9 +21,12 @@ class OBDRecorder(Thread):
         current_time = localtime.isoformat()
         log_string = current_time + "," + self.parameters.__str__()
 
-        mode = 'a' if os.path.exists(self.path) else 'w'
-        with open(self.path, mode) as f:
-            f.write(log_string + "\n")
+        if os.path.exists(self.path):
+            with open(self.path, 'a') as f:
+                f.write(log_string + "\n")
+        else:
+            with open(self.path, 'w') as f:
+                f.write("Time,RPM,Speed,Fuel Rate,Fuel Level,Ethanol Percent\n")
 
     def run(self):
         while True:

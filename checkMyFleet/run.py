@@ -1,6 +1,6 @@
 __author__ = 'gabriel'
 
-# import subprocess
+import subprocess
 import bluetooth
 import os
 from obd_reader import ObdReader
@@ -10,7 +10,7 @@ from obd_parameters import ObdParameters
 
 target_name = "OBDII"
 target_address = None
-
+'''
 while True:
 
     nearby_devices = bluetooth.discover_devices()
@@ -30,6 +30,8 @@ while True:
         break
     else:
         print "could not find target bluetooth device nearby"
+'''
+subprocess.Popen(["python", "parser.py"])
 
 parameters = ObdParameters()
 
