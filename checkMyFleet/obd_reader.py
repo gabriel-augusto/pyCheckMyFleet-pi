@@ -29,7 +29,7 @@ class ObdReader(Thread, object):
         self.parameters.rpm = self.connection.query(obd.commands.RPM)
         self.parameters.speed = self.connection.query(obd.commands.SPEED)
         if self.parameters.speed.value is not None:
-            self.parameters.fuel.unit = 'Km/h'
+            self.parameters.speed.unit = 'Km/h'
         self.parameters.level = self.connection.query(obd.commands.FUEL_LEVEL)
         self.parameters.ethanol = self.connection.query(obd.commands.ETHANOL_PERCENT)
 
