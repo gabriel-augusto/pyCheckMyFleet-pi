@@ -1,12 +1,13 @@
 __author__ = 'gabriel'
 
 import obd
-from obd import utils
-import obd_parameters
 import sys
+from threading import Thread
+import time
+from obd import Unit
 
 
-class ObdReader(object):
+class ObdReader(Thread, object):
     _instance = None
 
     def __new__(cls, *args, **kwargs):
@@ -14,25 +15,24 @@ class ObdReader(object):
             cls._instance = super(ObdReader, cls).__new__(cls, *args)
         return cls._instance
 
-    def __init__(self):
+    def __init__(self, parameters):
+        Thread.__init__(self)
         reload(sys)
         sys.setdefaultencoding('Cp1252')
+        Unit.KPA = 'Km/h'
+        Unit.LPH = 'L/h'
         self.connection = obd.OBD()
-        self.parameters = obd_parameters.ObdParameters()
+        self.parameters = parameters
 
     def read_obd(self):
+        self.parameters.fuel = self.connection.query(obd.commands.FUEL_RATE)
         self.parameters.rpm = self.connection.query(obd.commands.RPM)
         self.parameters.speed = self.connection.query(obd.commands.SPEED)
-        self.parameters.throttle = self.connection.query(obd.commands.THROTTLE_POS)
-        self.parameters.load = self.connection.query(obd.commands.ENGINE_LOAD)
-        self.parameters.fuel = self.connection.query(obd.commands.FUEL_LEVEL)
-        self.parameters.distance = self.connection.query(obd.commands.DISTANCE_SINCE_DTC_CLEAR)
-        if self.parameters.throttle.value is not None:
-            self.parameters.econometer.value = 100 - self.parameters.throttle.value
-            self.parameters.econometer.unit = utils.Unit.PERCENT
-        else:
-            self.parameters.econometer.value = None
-            self.parameters.econometer.unit = utils.Unit.NONE
 
     def clear_dtc(self):
         self.connection.query(obd.commands.CLEAR_DTC)
+
+    def run(self):
+        while True:
+            self.read_obd()
+            time.sleep(0.1)
