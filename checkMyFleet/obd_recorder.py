@@ -18,15 +18,15 @@ class OBDRecorder(Thread):
 
     def record_data(self):
         localtime = datetime.now()
-        current_time = localtime.isoformat()
-        log_string = current_time + "," + self.parameters.__str__()
+        current_time = localtime.isoformat().split('T')
+        log_string = current_time[0] + "," + current_time[1] + "," + self.parameters.__str__()
 
         if os.path.exists(self.path):
             with open(self.path, 'a') as f:
                 f.write(log_string + "\n")
         else:
             with open(self.path, 'w') as f:
-                f.write("Time,RPM,Speed,Fuel Rate,Fuel Level,Ethanol Percent\n")
+                f.write("Date,Time,RPM,Speed,Fuel Rate,Fuel Level,Ethanol Percent\n")
 
     def run(self):
         while True:

@@ -7,10 +7,12 @@ from obd_reader import ObdReader
 from obd_recorder import OBDRecorder
 from gui import Render
 from obd_parameters import ObdParameters
+# import time
+
 
 target_name = "OBDII"
 target_address = None
-'''
+
 while True:
 
     nearby_devices = bluetooth.discover_devices()
@@ -24,14 +26,17 @@ while True:
 
     if target_address is not None:
         print "found target bluetooth device with address ", target_address
+        # subprocess.Popen(["sudo", "rfcomm", "connect", "4"])
+        # time.sleep(3)
         os.system("sudo rfcomm bind all")
         # subprocess.Popen(["sudo", "rfcomm", "connect", "0", target_address, "1"])
         print "Connected!!!\n\n"
         break
     else:
         print "could not find target bluetooth device nearby"
-'''
+
 subprocess.Popen(["python", "parser.py"])
+# subprocess.Popen(["python", "wifi_connect.py"])
 
 parameters = ObdParameters()
 

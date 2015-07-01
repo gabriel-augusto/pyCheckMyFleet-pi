@@ -21,6 +21,7 @@ class ObdParameters(object):
         self.economy = utils.Response()
         self.ethanol = utils.Response()
         self.fuel_level = utils.Response()
+        self.consumption = utils.Response()
 
     def __str__(self):
         return str(self.rpm.value) + "," + str(self.speed.value) + "," + str(self.fuel_rate.value) + "," + str(

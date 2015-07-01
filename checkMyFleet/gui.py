@@ -3,21 +3,14 @@ __author__ = 'gabriel'
 import sys
 import pygame
 from threading import Thread
+import util
 
-white = (255, 255, 255)
-black = (0, 0, 0)
+white = (230, 230, 230)
+black = (20, 20, 20)
 size = width, height = 800, 600
 space = 20
 rec_width = (width - (4 * space)) / 3
 rec_height = (height - (3 * space)) / 2
-
-
-def is_float(value):
-    try:
-        value = float(value)
-        return True
-    except:
-        return False
 
 
 class Pane(object):
@@ -25,8 +18,8 @@ class Pane(object):
         pygame.init()
         self.LABEL = 1
         self.PARAMETER = 2
-        self.font1 = pygame.font.SysFont('Arial', 25)
-        self.font2 = pygame.font.SysFont('Arial', 30)
+        self.font1 = pygame.font.SysFont('monospace', 25, True)
+        self.font2 = pygame.font.SysFont('monospace', 30, True)
         pygame.display.set_caption('OBD GUI')
         self.screen = pygame.display.set_mode(size)
         self.xpos = 0
@@ -34,19 +27,19 @@ class Pane(object):
         self.parameters = parameters
 
     def add_rec(self, x, y):
-        pygame.draw.rect(self.screen, white, [x, y, rec_width, rec_height], 2)
+        pygame.draw.rect(self.screen, black, [x, y, rec_width, rec_height], 2)
 
     def add_text(self, text, x, y, font_type):
         if font_type == 1:
-            self.screen.blit(self.font1.render(text, True, (255, 255, 255)), (x, y))
+            self.screen.blit(self.font1.render(text, True, black), (x, y))
         if font_type == 2:
-            self.screen.blit(self.font2.render(text, True, (255, 255, 255)), (x, y))
+            self.screen.blit(self.font2.render(text, True, black), (x, y))
 
     def draw_interface(self):
         data_list = [('Velocidade:', self.parameters.speed), ('RPM:', self.parameters.rpm),
                      ('Consumo:', self.parameters.fuel_rate), ('Combustivel:', self.parameters.fuel_level),
-                     ('Ethanol', self.parameters.ethanol)]
-        self.screen.fill(black)
+                     ('Ethanol:', self.parameters.ethanol), ('Consumo:', self.parameters.consumption)]
+        self.screen.fill(white)
         self.xpos = 0
         count = 0
         for data in data_list:
@@ -58,7 +51,7 @@ class Pane(object):
 
             self.add_rec(self.xpos, self.ypos)
 
-            if is_float(data[1].value):
+            if util.is_float(data[1].value):
                 data[1].value = round(data[1].value, 2)
 
             self.add_text(str(data[0]), self.xpos + 10, self.ypos + 10, self.LABEL)
