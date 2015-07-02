@@ -4,15 +4,16 @@ import glob
 import os
 import time as t
 import util
-# from database import Database
+from database import Database
 
 REMOTE_SERVER = "www.google.com"
 
 
 class LogParameters(dict):
-    def __init__(self, placa, date, time, rpm, speed, fuel_rate, fuel_level, ethanol):
+    def __init__(self, placa, pi_serial, date, time, rpm, speed, fuel_rate, fuel_level, ethanol):
         dict.__init__({})
         self['placa'] = placa
+        self['piSerial'] = pi_serial
         self['date'] = date
         self['time'] = time
         self['rpm'] = rpm
@@ -23,10 +24,10 @@ class LogParameters(dict):
 
     def __str__(self):
         return (
-            "Placa: " + str(self['placa']) + ", Date: " + str(self['date']) + ", Time: " + str(
-                self['time']) + ", RPM: " + str(self['rpm']) + ", Speed: " + str(self['speed']) + ", Fuel Rate: " + str(
-                self['fuelRate']) + ", Fuel Level: " + str(self['fuelLevel']) + ", Ethanol Percent: " + str(
-                self['ethanol']))
+            "Placa: " + str(self['placa']) + ", piSerial: " + str(self['piSerial']) + ", Date: " + str(
+                self['date']) + ", Time: " + str(self['time']) + ", RPM: " + str(self['rpm']) + ", Speed: " + str(
+                self['speed']) + ", Fuel Rate: " + str(self['fuelRate']) + ", Fuel Level: " + str(
+                self['fuelLevel']) + ", Ethanol Percent: " + str(self['ethanol']))
 
 
 class LogReader:
@@ -34,6 +35,8 @@ class LogReader:
         self.db = None
         self.log_list = []
         self.text = None
+        self.pi_serial = 123456
+
         try:
             with open('placa/placa.txt') as arc:
                 self.placa = arc.readline().strip()
@@ -41,7 +44,7 @@ class LogReader:
             print("\nIOerr: " + str(ioerr))
 
     def read_log(self):
-        # self.db = Database()
+        self.db = Database()
         for archive in glob.glob('log/*.log'):
             try:
                 with open(archive) as arc:
@@ -56,6 +59,7 @@ class LogReader:
                     if not i % 60:
                         parameters_list = eachLine.strip().split(',')
                         log_parameters = LogParameters(self.placa,
+                                                       self.pi_serial,
                                                        parameters_list[0],
                                                        parameters_list[1],
                                                        parameters_list[2],
@@ -64,11 +68,12 @@ class LogReader:
                                                        parameters_list[5],
                                                        parameters_list[6])
                         self.log_list.append(log_parameters)
-                        # self.db.insert_parameters(log_parameters)
+                        self.db.insert_parameters(log_parameters)
+                        print log_parameters.__str__()
                     i += 1
-            print str(self)
+            # print str(self)
             os.remove(archive)
-            # self.db.__del__()
+        self.db.close()
 
     def __str__(self):
         string = ""
@@ -78,7 +83,7 @@ class LogReader:
 if __name__ == "__main__":
     reader = LogReader()
     while True:
-        if util.has_internet_connection:
+        if util.has_internet_connection():
             reader.read_log()
         else:
             t.sleep(3)

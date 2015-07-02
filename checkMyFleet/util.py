@@ -17,7 +17,6 @@ def has_internet_connection():
     try:
         host = socket.gethostbyname(REMOTE_SERVER)
         socket.create_connection((host, 80), 2)
-        return True
     except:
-        pass
-    return False
+        return False
+    return True

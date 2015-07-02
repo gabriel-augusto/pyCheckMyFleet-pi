@@ -34,8 +34,10 @@ class ObdReader(Thread, object):
         self.parameters.rpm = self.connection.query(obd.commands.RPM)
         self.parameters.fuel_level = self.connection.query(obd.commands.FUEL_LEVEL)
         self.parameters.ethanol = self.connection.query(obd.commands.ETHANOL_PERCENT)
-        if util.is_float(self.parameters.speed.value) and util.is_float(self.parameters.fuel_rate.value):
-            self.parameters.consumption.value = self.parameters.speed.value / self.parameters.fuel_rate.value
+        self.parameters.maf = self.connection.query(obd.commands.MAF)
+
+        if util.is_float(self.parameters.speed.value) and util.is_float(self.parameters.maf):
+            self.parameters.consumption.value = 302.0475 * self.parameters.speed.value / self.parameters.maf.value
             self.parameters.consumption.unit = 'Km/L'
         else:
             self.parameters.consumption.value = None
