@@ -23,6 +23,10 @@ class ObdReader(Thread, object):
         self.parameters = parameters
 
     def read_obd(self):
+        self.parameters.rpm = self.connection.query(obd.commands.RPM)
+        self.parameters.fuel_level = self.connection.query(obd.commands.FUEL_LEVEL)
+        self.parameters.ethanol = self.connection.query(obd.commands.ETHANOL_PERCENT)
+
         self.parameters.fuel_rate = self.connection.query(obd.commands.FUEL_RATE)
         if self.parameters.fuel_rate.value is not None:
             self.parameters.fuel_rate.unit = 'L/h'
@@ -31,17 +35,30 @@ class ObdReader(Thread, object):
         if self.parameters.speed.value is not None:
             self.parameters.speed.unit = 'Km/h'
 
-        self.parameters.rpm = self.connection.query(obd.commands.RPM)
-        self.parameters.fuel_level = self.connection.query(obd.commands.FUEL_LEVEL)
-        self.parameters.ethanol = self.connection.query(obd.commands.ETHANOL_PERCENT)
         self.parameters.maf = self.connection.query(obd.commands.MAF)
+        if self.parameters.maf.value is not None:
+            self.parameters.maf.unit = 'g/s'
 
         if util.is_float(self.parameters.speed.value) and util.is_float(self.parameters.maf.value):
-            self.parameters.consumption.value = 3.0215 * self.parameters.speed.value / self.parameters.maf.value
-            self.parameters.consumption.unit = 'Km/L'
+            self.parameters.autonomy.value = 3.103 * self.parameters.speed.value / self.parameters.maf.value
+            self.parameters.autonomy.unit = 'Km/L'
+        else:
+            self.parameters.autonomy.value = None
+            self.parameters.autonomy.unit = ''
+
+        if util.is_float(self.parameters.maf.value):
+            self.parameters.consumption.value = 0.322 * self.parameters.maf.value
+            self.parameters.consumption.unit = 'L/h'
         else:
             self.parameters.consumption.value = None
             self.parameters.consumption.unit = ''
+
+        if util.is_float(self.parameters.speed.value) and util.is_float(self.parameters.consumption.value):
+            self.parameters.autonomy2.value = self.parameters.speed.value / self.parameters.consumption.value
+            self.parameters.autonomy2.unit = 'Km/L'
+        else:
+            self.parameters.autonomy2.value = None
+            self.parameters.autonomy2.unit = ''
 
     def clear_dtc(self):
         self.connection.query(obd.commands.CLEAR_DTC)
