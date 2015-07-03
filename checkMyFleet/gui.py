@@ -37,8 +37,7 @@ class Pane(object):
 
     def draw_interface(self):
         data_list = [('Velocidade:', self.parameters.speed), ('RPM:', self.parameters.rpm),
-                     ('Fuel Rate:', self.parameters.fuel_rate), ('Nivel Combustivel:', self.parameters.fuel_level),
-                     ('Ethanol:', self.parameters.ethanol), ('Consumo:', self.parameters.consumption)]
+                     ('MAF:', self.parameters.maf), ('Consumo:', self.parameters.consumption)]
         self.screen.fill(white)
         self.xpos = 0
         count = 0
