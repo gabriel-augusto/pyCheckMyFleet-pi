@@ -3,6 +3,7 @@ __author__ = 'gabriel'
 from threading import Thread
 import serial
 import util
+import time
 
 
 class PressureReader(Thread, object):
@@ -29,9 +30,9 @@ class PressureReader(Thread, object):
 
     def read_pressure(self):
         x = self.ser.readline().strip()
-        x = float(x) * 101.5 / 1023
-        x = round(x, 2)
         if util.is_float(x):
+            x = float(x) * 101.5 / 1023
+            x = round(x, 2)
             self.parameters.pressure.value = x
             self.parameters.pressure.unit = 'psi'
         else:
@@ -43,4 +44,5 @@ class PressureReader(Thread, object):
         while True:
             if self.ser is not None:
                 self.read_pressure()
+            time.sleep(0.5)
         self.ser.close()
