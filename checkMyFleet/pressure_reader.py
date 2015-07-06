@@ -16,11 +16,16 @@ class PressureReader(Thread, object):
     def __init__(self, parameters):
         Thread.__init__(self)
         self.parameters = parameters
-        self.ser = serial.Serial(port='/dev/ttyAMA0',
-                                 baudrate=9600,
-                                 parity=serial.PARITY_NONE,
-                                 stopbits=serial.STOPBITS_ONE,
-                                 bytesize=serial.EIGHTBITS, timeout=1)
+        self.ser = None
+        try:
+            self.ser = serial.Serial(port='/dev/ttyAMA0',
+                                     baudrate=9600,
+                                     parity=serial.PARITY_NONE,
+                                     stopbits=serial.STOPBITS_ONE,
+                                     bytesize=serial.EIGHTBITS, timeout=1)
+        except:
+            self.ser = None
+            print 'Failed to connect to pressure sensor'
 
     def read_pressure(self):
         x = self.ser.readline() * 101.5 / 1023
@@ -34,5 +39,6 @@ class PressureReader(Thread, object):
 
     def run(self):
         while True:
-            self.read_pressure()
+            if self.ser is not None:
+                self.read_pressure()
         self.ser.close()
