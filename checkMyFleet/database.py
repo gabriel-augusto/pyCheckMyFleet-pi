@@ -11,7 +11,7 @@ class Database:
     table = 'Measurement'
 
     def __init__(self):
-        self.add_parameters = "INSERT into Measurement (vehiclePlate, piSerial, measurementDate, measurementTime, rpm, kph, fuelRate, fuelLevel, ethanolPercent) values (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        self.add_parameters = "INSERT into Measurement (vehiclePlate, piSerial, measurementDate, measurementTime, rpm, kph, consumption, autonomy, pressure) values (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
         self.connection = MySQLdb.connect(self.host, self.user, self.password, self.db)
         self.cursor = self.connection.cursor()
 
