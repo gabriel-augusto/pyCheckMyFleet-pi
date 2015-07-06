@@ -26,7 +26,7 @@ class OBDRecorder(Thread):
                 f.write(log_string + "\n")
         else:
             with open(self.path, 'w') as f:
-                f.write("Date,Time,RPM,Speed,Fuel Rate,Fuel Level,Ethanol Percent\n")
+                f.write("Date,Time,RPM,Speed,Consumption,Autonomy,Pressure\n")
 
     def run(self):
         while True:

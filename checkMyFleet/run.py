@@ -7,6 +7,7 @@ from obd_reader import ObdReader
 from obd_recorder import OBDRecorder
 from gui import Render
 from obd_parameters import ObdParameters
+from pressure_reader import PressureReader
 # import time
 
 
@@ -40,8 +41,11 @@ subprocess.Popen(["python", "parser.py"])
 
 parameters = ObdParameters()
 
-reader = ObdReader(parameters)
-reader.setName('Reader')
+obd_reader = ObdReader(parameters)
+obd_reader.setName('OBD Reader')
+
+pressure_reader = PressureReader(parameters)
+pressure_reader.setName('Pressure Reader')
 
 recorder = OBDRecorder(parameters)
 recorder.setName('Recorder')
@@ -49,10 +53,12 @@ recorder.setName('Recorder')
 render = Render(parameters)
 render.setName('Render')
 
-reader.start()
+obd_reader.start()
+pressure_reader.start()
 recorder.start()
 render.start()
 
-reader.join()
+obd_reader.join()
+pressure_reader.join()
 recorder.join()
 render.join()

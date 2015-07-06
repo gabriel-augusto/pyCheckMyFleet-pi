@@ -5,8 +5,8 @@ import pygame
 from threading import Thread
 import util
 
-white = (230, 230, 230)
-black = (20, 20, 20)
+white = (255, 255, 255)
+black = (0, 0, 0)
 size = width, height = 800, 600
 space = 20
 rec_width = (width - (4 * space)) / 3
@@ -27,19 +27,22 @@ class Pane(object):
         self.parameters = parameters
 
     def add_rec(self, x, y):
-        pygame.draw.rect(self.screen, black, [x, y, rec_width, rec_height], 2)
+        pygame.draw.rect(self.screen, white, [x, y, rec_width, rec_height], 2)
 
     def add_text(self, text, x, y, font_type):
         if font_type == 1:
-            self.screen.blit(self.font1.render(text, True, black), (x, y))
+            self.screen.blit(self.font1.render(text, True, white), (x, y))
         if font_type == 2:
-            self.screen.blit(self.font2.render(text, True, black), (x, y))
+            self.screen.blit(self.font2.render(text, True, white), (x, y))
 
     def draw_interface(self):
-        data_list = [('Velocidade:', self.parameters.speed), ('RPM:', self.parameters.rpm),
-                     ('MAF:', self.parameters.maf), ('Autonomia:', self.parameters.autonomy),
-                     ('Consumo:', self.parameters.consumption), ('Autonomia 2:', self.parameters.autonomy2)]
-        self.screen.fill(white)
+        data_list = [('Velocidade:', self.parameters.speed),
+                     ('RPM:', self.parameters.rpm),
+                     ('MAF:', self.parameters.maf),
+                     ('Autonomia:', self.parameters.autonomy),
+                     ('Consumo:', self.parameters.consumption),
+                     ('Pressure:', self.parameters.pressure)]
+        self.screen.fill(black)
         self.xpos = 0
         count = 0
         for data in data_list:

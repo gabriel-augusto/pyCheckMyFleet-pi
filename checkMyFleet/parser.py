@@ -10,7 +10,7 @@ REMOTE_SERVER = "www.google.com"
 
 
 class LogParameters(dict):
-    def __init__(self, placa, pi_serial, date, time, rpm, speed, fuel_rate, fuel_level, ethanol):
+    def __init__(self, placa, pi_serial, date, time, rpm, speed, consumption, autonomy, pressure):
         dict.__init__({})
         self['placa'] = placa
         self['piSerial'] = pi_serial
@@ -18,16 +18,16 @@ class LogParameters(dict):
         self['time'] = time
         self['rpm'] = rpm
         self['speed'] = speed
-        self['fuelRate'] = fuel_rate
-        self['fuelLevel'] = fuel_level
-        self['ethanol'] = ethanol
+        self['consumption'] = consumption
+        self['autonomy'] = autonomy
+        self['pressure'] = pressure
 
     def __str__(self):
         return (
             "Placa: " + str(self['placa']) + ", piSerial: " + str(self['piSerial']) + ", Date: " + str(
                 self['date']) + ", Time: " + str(self['time']) + ", RPM: " + str(self['rpm']) + ", Speed: " + str(
-                self['speed']) + ", Fuel Rate: " + str(self['fuelRate']) + ", Fuel Level: " + str(
-                self['fuelLevel']) + ", Ethanol Percent: " + str(self['ethanol']))
+                self['speed']) + ", Consumption: " + str(self['consumption']) + ", Autonomy: " + str(
+                self['autonomy']) + ", Pressure: " + str(self['pressure']))
 
 
 class LogReader:

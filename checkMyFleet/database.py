@@ -44,10 +44,9 @@ class Database:
                 str(parameters['time']),
                 str(parameters['rpm']),
                 str(parameters['speed']),
-                str(parameters['fuelRate']),
-                str(parameters['fuelLevel']),
-                str(parameters['ethanol']))
-
+                str(parameters['consumption']),
+                str(parameters['autonomy']),
+                str(parameters['pressure']))
         self.insert(self.add_parameters, data)
 
     def insert(self, query, data):
