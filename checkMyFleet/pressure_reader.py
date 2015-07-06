@@ -28,7 +28,9 @@ class PressureReader(Thread, object):
             print 'Failed to connect to pressure sensor'
 
     def read_pressure(self):
-        x = self.ser.readline() * 101.5 / 1023
+        x = self.ser.readline().strip()
+        x = float(x) * 101.5 / 1023
+        x = round(x, 2)
         if util.is_float(x):
             self.parameters.pressure.value = x
             self.parameters.pressure.unit = 'psi'
