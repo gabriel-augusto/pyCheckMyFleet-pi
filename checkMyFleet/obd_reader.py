@@ -53,13 +53,6 @@ class ObdReader(Thread, object):
             self.parameters.consumption.value = None
             self.parameters.consumption.unit = ''
 
-        if util.is_float(self.parameters.speed.value) and util.is_float(self.parameters.consumption.value):
-            self.parameters.autonomy2.value = self.parameters.speed.value / self.parameters.consumption.value
-            self.parameters.autonomy2.unit = 'Km/L'
-        else:
-            self.parameters.autonomy2.value = None
-            self.parameters.autonomy2.unit = ''
-
     def clear_dtc(self):
         self.connection.query(obd.commands.CLEAR_DTC)
 

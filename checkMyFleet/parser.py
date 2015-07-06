@@ -71,7 +71,6 @@ class LogReader:
                         self.db.insert_parameters(log_parameters)
                         print log_parameters.__str__()
                     i += 1
-            # print str(self)
             os.remove(archive)
         self.db.close()
 

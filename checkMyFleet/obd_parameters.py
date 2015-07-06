@@ -27,5 +27,8 @@ class ObdParameters(object):
         self.pressure = utils.Response()
 
     def __str__(self):
-        return str(self.rpm.value) + "," + str(self.speed.value) + "," + str(self.consumption.value) + "," + str(
-            self.autonomy.value) + "," + str(self.pressure.value)
+        return str(self.rpm.value) + "," + \
+               str(self.speed.value) + "," + \
+               str(self.consumption.value) + "," + \
+               str(self.autonomy.value) + "," + \
+               str(self.pressure.value)
