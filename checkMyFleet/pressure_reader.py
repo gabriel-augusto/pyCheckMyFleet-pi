@@ -31,10 +31,10 @@ class PressureReader(Thread, object):
     def read_pressure(self):
         x = self.ser.readline().strip()
         if util.is_float(x):
-            x = float(x) * 101.5 / 1023
+            x = float(x) * 10 / 1023
             x = round(x, 2)
             self.parameters.pressure.value = x
-            self.parameters.pressure.unit = 'psi'
+            self.parameters.pressure.unit = 'kPa'
         else:
             self.parameters.pressure.value = None
             self.parameters.pressure.unit = ''
