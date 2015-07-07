@@ -51,6 +51,7 @@ class LogReader:
                     self.text = arc.readlines()
             except IOError as ioerr:
                 print("\nIOerr: " + str(ioerr))
+            self.text = self.text[0:len(self.text) - 1]
 
             if self.text:
                 self.text.pop(0)
