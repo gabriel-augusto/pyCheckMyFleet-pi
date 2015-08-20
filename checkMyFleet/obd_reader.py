@@ -3,8 +3,7 @@ __author__ = 'gabriel'
 import obd
 import sys
 from threading import Thread
-import time
-from obd import Unit
+import util
 
 
 class ObdReader(Thread, object):
@@ -19,15 +18,40 @@ class ObdReader(Thread, object):
         Thread.__init__(self)
         reload(sys)
         sys.setdefaultencoding('Cp1252')
-        Unit.KPA = 'Km/h'
-        Unit.LPH = 'L/h'
+        obd.debug.console = True
         self.connection = obd.OBD()
         self.parameters = parameters
 
     def read_obd(self):
-        self.parameters.fuel = self.connection.query(obd.commands.FUEL_RATE)
         self.parameters.rpm = self.connection.query(obd.commands.RPM)
+        self.parameters.fuel_level = self.connection.query(obd.commands.FUEL_LEVEL)
+        self.parameters.ethanol = self.connection.query(obd.commands.ETHANOL_PERCENT)
+
+        self.parameters.fuel_rate = self.connection.query(obd.commands.FUEL_RATE)
+        if self.parameters.fuel_rate.value is not None:
+            self.parameters.fuel_rate.unit = 'L/h'
+
         self.parameters.speed = self.connection.query(obd.commands.SPEED)
+        if self.parameters.speed.value is not None:
+            self.parameters.speed.unit = 'Km/h'
+
+        self.parameters.maf = self.connection.query(obd.commands.MAF)
+        if self.parameters.maf.value is not None:
+            self.parameters.maf.unit = 'g/s'
+
+        if util.is_float(self.parameters.speed.value) and util.is_float(self.parameters.maf.value):
+            self.parameters.autonomy.value = 3.103 * self.parameters.speed.value / self.parameters.maf.value
+            self.parameters.autonomy.unit = 'Km/L'
+        else:
+            self.parameters.autonomy.value = None
+            self.parameters.autonomy.unit = ''
+
+        if util.is_float(self.parameters.maf.value):
+            self.parameters.consumption.value = 0.322 * self.parameters.maf.value
+            self.parameters.consumption.unit = 'L/h'
+        else:
+            self.parameters.consumption.value = None
+            self.parameters.consumption.unit = ''
 
     def clear_dtc(self):
         self.connection.query(obd.commands.CLEAR_DTC)
@@ -35,4 +59,3 @@ class ObdReader(Thread, object):
     def run(self):
         while True:
             self.read_obd()
-            time.sleep(0.1)

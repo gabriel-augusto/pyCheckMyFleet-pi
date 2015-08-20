@@ -3,6 +3,7 @@ __author__ = 'gabriel'
 import sys
 import pygame
 from threading import Thread
+import util
 
 white = (255, 255, 255)
 black = (0, 0, 0)
@@ -12,23 +13,15 @@ rec_width = (width - (4 * space)) / 3
 rec_height = (height - (3 * space)) / 2
 
 
-def is_float(value):
-    try:
-        value = float(value)
-        return True
-    except:
-        return False
-
-
 class Pane(object):
     def __init__(self, parameters):
         pygame.init()
         self.LABEL = 1
         self.PARAMETER = 2
-        self.font1 = pygame.font.SysFont('Arial', 25)
-        self.font2 = pygame.font.SysFont('Arial', 30)
+        self.font1 = pygame.font.SysFont('monospace', 25, True)
+        self.font2 = pygame.font.SysFont('monospace', 30, True)
         pygame.display.set_caption('OBD GUI')
-        self.screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
+        self.screen = pygame.display.set_mode(size)
         self.xpos = 0
         self.ypos = 0
         self.parameters = parameters
@@ -38,13 +31,17 @@ class Pane(object):
 
     def add_text(self, text, x, y, font_type):
         if font_type == 1:
-            self.screen.blit(self.font1.render(text, True, (255, 255, 255)), (x, y))
+            self.screen.blit(self.font1.render(text, True, white), (x, y))
         if font_type == 2:
-            self.screen.blit(self.font2.render(text, True, (255, 255, 255)), (x, y))
+            self.screen.blit(self.font2.render(text, True, white), (x, y))
 
     def draw_interface(self):
-        data_list = [('Velocidade:', self.parameters.speed), ('RPM:', self.parameters.rpm),
-                     ('Consumo:', self.parameters.fuel)]
+        data_list = [('Velocidade:', self.parameters.speed),
+                     ('RPM:', self.parameters.rpm),
+                     ('MAF:', self.parameters.maf),
+                     ('Autonomia:', self.parameters.autonomy),
+                     ('Consumo:', self.parameters.consumption),
+                     ('Pressure:', self.parameters.pressure)]
         self.screen.fill(black)
         self.xpos = 0
         count = 0
@@ -57,14 +54,11 @@ class Pane(object):
 
             self.add_rec(self.xpos, self.ypos)
 
-            if is_float(data[1].value):
+            if util.is_float(data[1].value):
                 data[1].value = round(data[1].value, 2)
 
             self.add_text(str(data[0]), self.xpos + 10, self.ypos + 10, self.LABEL)
-            if data[1].value is None:
-                self.add_text('---------', self.xpos + 10, self.ypos + (rec_height / 2 - 10), self.PARAMETER)
-            else:
-                self.add_text(data[1].__str__(), self.xpos + 10, self.ypos + (rec_height / 2 - 10), self.PARAMETER)
+            self.add_text(data[1].__str__(), self.xpos + 10, self.ypos + (rec_height / 2 - 10), self.PARAMETER)
 
             if count % 2:
                 self.xpos += rec_width
@@ -84,6 +78,5 @@ class Render(Thread):
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         sys.exit()
-
             self.pan.draw_interface()
             pygame.display.flip()

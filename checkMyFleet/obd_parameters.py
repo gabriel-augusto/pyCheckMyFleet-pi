@@ -16,11 +16,19 @@ class ObdParameters(object):
         self.speed = utils.Response()
         self.throttle = utils.Response()
         self.load = utils.Response()
-        self.fuel = utils.Response()
+        self.fuel_rate = utils.Response()
         self.distance = utils.Response()
         self.economy = utils.Response()
+        self.ethanol = utils.Response()
+        self.fuel_level = utils.Response()
+        self.consumption = utils.Response()
+        self.maf = utils.Response()
+        self.autonomy = utils.Response()
+        self.pressure = utils.Response()
 
     def __str__(self):
-        return str(self.rpm.value) + "," + str(self.speed.value) + "," + str(self.throttle.value) + "," + str(
-            self.load.value) + "," + str(self.fuel.value) + "," + str(self.distance.value) + "," + str(
-            self.economy.value)
+        return str(self.rpm.value) + "," + \
+               str(self.speed.value) + "," + \
+               str(self.consumption.value) + "," + \
+               str(self.autonomy.value) + "," + \
+               str(self.pressure.value)
